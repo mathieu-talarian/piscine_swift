@@ -1,3 +1,5 @@
+import Foundation
+
 let card1 : Card = Card(color: .carreau, value: .ace)
 let card2 : Card = Card(color: .coeur, value: .ace)
 let obj = NSObject()

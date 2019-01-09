@@ -1,3 +1,8 @@
+import Foundation
+
+infix operator -->
+infix operator <--
+
 class Deck : NSObject {
     static let allSpades :[Card] = Value.allValues.map {
         (number) -> Card in
@@ -12,7 +17,7 @@ class Deck : NSObject {
 
     static var allCards : [Card] = Deck.allSpades + Deck.allHeart + Deck.allDiamonds + Deck.allClubs
 
-    var cards = Deck.allCards
+    var cards : [Card] = Deck.allCards
 
     var discard : [Card] = []
 
@@ -25,6 +30,10 @@ class Deck : NSObject {
 
     override var description: String{return "\(self.cards)"}
 
+    var length: Int{return self.cards.count}
+    var dlength: Int{return self.discard.count}
+    var olength: Int{return self.outs.count}
+
     func draw () -> Card? {
         if self.cards.count > 0 {
             let card: Card? = self.cards.removeFirst()
@@ -34,11 +43,18 @@ class Deck : NSObject {
         return nil
     }
 
+    static func --> (_ left: Deck , _ right: Card) {
+        left.discard.append(right)
+    }
+    static func <-- (_ left: Deck , _ right: Card) {
+        left.outs.removeAll(where: { element in (right == element) })
+    }
+
     func fold (card: Card) {
         self.outs.contains(card) ? {
-            self.outs.removeAll(where: { element in (card == element) })
-            self.discard.append(card)
-            }() : {}()
+            self --> card
+            self <-- card
+            }() : {print("cant fold, card `\(card)` : not in outs")}()
     }
 }
 

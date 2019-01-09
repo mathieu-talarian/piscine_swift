@@ -1,3 +1,5 @@
+import Foundation
+
 class Deck : NSObject {
     static let allSpades :[Card] = Value.allValues.map {
         (number) -> Card in

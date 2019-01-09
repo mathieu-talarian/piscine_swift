@@ -1,3 +1,5 @@
+import Foundation
+
 class Deck : NSObject {
     static let allSpades :[Card] = Value.allValues.map {
         (number) -> Card in
@@ -15,6 +17,18 @@ class Deck : NSObject {
 
 extension Array where Element:Card {
     mutating func shuffle() {
+        let c = count
+        guard c > 1 else { return }
+        for i in startIndex ..< endIndex - 1 {
+            let j = Int(arc4random_uniform(UInt32(count - i))) + i
+            guard i != j else { continue }
+            self.swapAt(i, j)
+        }
+    }
+}
+
+extension Array {
+        mutating func shuffle() {
         let c = count
         guard c > 1 else { return }
         for i in startIndex ..< endIndex - 1 {
