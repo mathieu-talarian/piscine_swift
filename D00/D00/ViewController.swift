@@ -2,8 +2,8 @@
 //  ViewController.swift
 //  D00
 //
-//  Created by Mathieu Moullec on 07/01/2019.
-//  Copyright © 2019 Mathieu Moullec. All rights reserved.
+//  Created by Mathieu MOULLEC on 1/8/19.
+//  Copyright © 2019 Mathieu MOULLEC. All rights reserved.
 //
 
 import UIKit
@@ -16,6 +16,7 @@ enum Operator: String {
     case none = "n"
     static let allOperators: [Operator] = [addition, soustraction, division, multiplication]
 }
+
 
 class Number {
     
@@ -96,6 +97,7 @@ class ViewController: UIViewController {
     @IBOutlet  var ssBtn: UIButton!
     @IBOutlet  var addBtn: UIButton!
     
+    @IBOutlet var ans: UILabel!
     var op : Operator?
     @IBOutlet var number: UILabel!
     
@@ -106,6 +108,7 @@ class ViewController: UIViewController {
     @IBAction func reset(_ sender: Any) {
         self.resetColors()
         self.number.text = "0"
+        self.ans.text = ""
         self.numbers.reinit()
     }
     
@@ -122,6 +125,7 @@ class ViewController: UIViewController {
             self.resetColors()
             self.changeColor(sender)
             numbers.save(left: number.text!, op: self.op!)
+            ans.text! =  number.text! + " " +  self.op!.rawValue
             number.text = "0"
         }
     }
@@ -130,6 +134,7 @@ class ViewController: UIViewController {
     @IBAction func result(_ sender: UIButton) {
         self.resetColors()
         self.number.text = numbers.exe(right: self.number.text!)
+        self.ans.text! = ""
         self.reup = true
     }
     
@@ -143,6 +148,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.ans.text = ""
         self.color = self.addBtn.backgroundColor
     }
     
@@ -158,4 +164,3 @@ class ViewController: UIViewController {
         self.divBtn.backgroundColor = self.color
     }
 }
-
