@@ -1,14 +1,14 @@
 //
-//  SecondViewController.swift
-//  D02B
+//  ViewController.swift
+//  D03
 //
-//  Created by Mathieu MOULLEC on 1/10/19.
+//  Created by Mathieu MOULLEC on 1/11/19.
 //  Copyright © 2019 Mathieu MOULLEC. All rights reserved.
 //
 
 import UIKit
 
-class SecondViewController: UIViewController {
+class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
