@@ -39,9 +39,9 @@ class ViewController: UIViewController, UICollectionViewDelegate, UICollectionVi
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-               let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imagesCollection", for: indexPath) as! ImagesCollectionViewCell
-        performSegue(withIdentifier: "ImageSegue", sender: cell)
-    }
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//               let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "imagesCollection", for: indexPath) as! ImagesCollectionViewCell
+//        performSegue(withIdentifier: "ImageSegue", sender: cell)
+//    }
     
 }
