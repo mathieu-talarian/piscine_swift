@@ -2,29 +2,26 @@
 //  APIControllerClass.swift
 //  D04
 //
-//  Created by Mathieu Moullec on 12/01/2019.
-//  Copyright © 2019 Mathieu Moullec. All rights reserved.
+//  Created by Mathieu MOULLEC on 1/12/19.
+//  Copyright © 2019 Mathieu MOULLEC. All rights reserved.
 //
 
 import Foundation
 
 class APIController {
-    
-    weak var delegate : APITwitterDelegate?
+    weak var delegate : ApiTwitterDelegate?
     let token : String
-    var tweets: [Tweet] = []
+    var tweets : [Tweet] = []
     
-    init(delegate: APITwitterDelegate, token: String) {
+    init(delegate: ApiTwitterDelegate, token : String) {
         self.delegate = delegate
         self.token = token
     }
     
-    
     func getTweets(str : String, nbr : Int) {
-        print("getFromTwitter(\(str), \(nbr))")
         
         
-        
+
         let query = str.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
         let URLRequest = NSMutableURLRequest(url: URL(string : "https://api.twitter.com/1.1/search/tweets.json?q=\(query)&count=\(nbr)&lang=fr&result_type=recent")!)
         
@@ -34,8 +31,8 @@ class APIController {
         let task = URLSession.shared.dataTask(with: URLRequest as URLRequest, completionHandler: {
             (data, response, error) in
             if let err = error {
-                if let del: APITwitterDelegate = self.delegate {
-                    del.printError(err as NSError)
+                if let del: ApiTwitterDelegate = self.delegate {
+                    del.printError(error: err as NSError)
                 }
             } else if let d = data {
                 do {
@@ -56,14 +53,15 @@ class APIController {
                             }
                         }
                     }
-                    if let del: APITwitterDelegate = self.delegate {
-                        del.readTweets(self.tweets)
+                    if let del: ApiTwitterDelegate = self.delegate {
+                        del.readTweets(tweets: self.tweets)
                     }
                 } catch _{
-                    print("Connexion lost")
+//                    print("Connexion lost")
                 }
             }
         })
         task.resume()
     }
 }
+
