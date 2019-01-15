@@ -1,148 +1,55 @@
 import UIKit
+import Foundation
 
 
-enum Color : String {
-    case pique = "♠"
-    case trefle = "♣"
-    case coeur = "♥"
-    case carreau = "♦"
-    static let allColors : [Color] =  [pique, trefle, carreau, coeur]
+var Token : String = "a8340e606f6641b92b2784cb6f8f9d5093cfa8c0e7bc9f75032c68506853fbd3"
+
+//func getPosts(url: URL) {
+////    let query = url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+//    let URLRequest = NSMutableURLRequest(url: url)
+//
+//    URLRequest.httpMethod = "GET"
+//    URLRequest.setValue("Bearer " +  Token, forHTTPHeaderField: "Authorization")
+//
+//    let task = URLSession.shared.dataTask(with: URLRequest as URLRequest, completionHandler: {
+//        (data, response, error) in
+//        if let err = error {
+//            print(err)
+////            if let del: ApiTwitterDelegate = self.delegate {
+////                del.printError(error: err as NSError)
+////            }
+//        } else if let d = data {
+//            do {
+//                if let responseObject = try JSONSerialization.jsonObject(with: d, options: []) as? [String:AnyObject],
+//                    let arrayStatuses = responseObject["statuses"] as? [[String:AnyObject]] {
+//                    print("Data items count: \(arrayStatuses.count)")
+////                    for status in arrayStatuses {
+////                        let text = status["text"] as! String
+////                        let user = status["user"]?["name"] as! String
+////                        if let date = status["created_at"] as? String {
+////                            let dateFormatter = DateFormatter()
+////                            dateFormatter.dateFormat = "E MMM dd HH:mm:ss Z yyyy"
+////                            if let date = dateFormatter.date(from: date) {
+////                                dateFormatter.dateFormat = "dd/MM/yyyy HH:mm"
+////                                let newDate = dateFormatter.string(from: date)
+////                                self.tweets.append(Tweet(name: user, text: text, date: newDate))
+////                            }
+////                        }
+////                    }
+//                }
+////                if let del: ApiTwitterDelegate = self.delegate {
+////                    del.readTweets(tweets: self.tweets)
+////                }
+//            } catch _{
+//                //                    print("Connexion lost")
+//            }
+//        }
+//    })
+//    task.resume()
+//
+//}
+
+func getPosts(url: URL) {
+    print(url.description)
 }
-
-enum Value : Int {
-    case ace = 1
-    case deux, trois, quatre, cinq, six, sept, huit, neuf, dix, valet, dame, roi
-    static let allValues : [Value] = [
-      ace,
-     deux, trois, quatre, cinq, six, sept, huit, neuf, dix, valet, dame, roi
-    ]
-}
-
-var vals : [Value] = Value.allValues
-for elem in vals {
-    print("\(elem) = \(elem.rawValue)")
-}
-
-var cols : [Color] = Color.allColors
-for elem in cols {
-    print("\(elem) = \(elem.rawValue)")
-}
-
-let roi : Value = .roi
-print(roi.hashValue)
-print(roi.rawValue)
-
-let Pique : Color = .pique
-print(Pique.rawValue)
-
-class Card : NSObject {
-    var Color : Color?
-    var Value : Value?
-    
-     init(color: Color, value: Value) {
-        self.Color = color
-        self.Value = value
-    }
-    
-    override var description : String {
-        return "this card is \(self.Value!) of \(self.Color!.rawValue)"
-    }
-    
-    override func isEqual(_ object: Any?) -> Bool {
-        if let obj = object as? Card {
-            return (obj.Color == self.Color) && (obj.Value == self.Value)
-        }
-        return false
-    }
-}
-
-
-func ==(left: Card, right: Card) ->Bool {
-    return left.isEqual(right)
-}
-
-let card1 : Card = Card(color: .carreau, value: .ace)
-let card2 : Card = Card(color: .coeur, value: .ace)
-let obj = NSObject()
-print(card1.description)
-print(card2.description)
-print(card1.isEqual(card1))
-print(card1.isEqual(obj))
-print(card2.isEqual(card1))
-print(card1 == card1)
-print(card2 == card1)
-
-class Deck : NSObject {
-    static let allSpades :[Card] = Value.allValues.map {
-        (number) -> Card in
-        return Card(color: .pique, value: number)
-    }
-    
-    static let allDiamonds : [Card] = Value.allValues.map({Card(color: .carreau, value: $0)})
-    
-    static let allHeart : [Card] = Value.allValues.map({Card(color: .coeur,value: $0)})
-    
-    static let allClubs : [Card] = Value.allValues.map({Card(color:.trefle, value:$0)})
-    
-    static var allCards : [Card] = Deck.allSpades + Deck.allHeart + Deck.allDiamonds + Deck.allClubs
-    
-    var cards = Deck.allCards
-    
-    var discard : [Card] = []
-    
-    var outs : [Card] = []
-    
-    init(_ sort: Bool) {
-        sort ? self.cards.shuffle() : ();
-        super.init()
-    }
-    
-    override var description: String{return "\(self.cards)"}
-    
-    func draw () -> Card? {
-        if self.cards.count > 0 {
-            let card: Card? = self.cards.removeFirst()
-            self.outs.append(card!)
-            return card
-        }
-        return nil
-    }
-    
-    func fold (card: Card) {
-        self.outs.contains(card) ? {
-            self.outs.removeAll(where: { element in (card == element) })
-            self.discard.append(card)
-            }() : {}()
-    }
-}
-
-
-
-print(Deck.allDiamonds)
-print(Deck.allHeart.count)
-print(Deck.allCards.count)
-
-extension Array where Element:Card {
-    mutating func shuffle() {
-        let c = count
-        guard c > 1 else { return }
-        for i in startIndex ..< endIndex - 1 {
-            let j = Int(arc4random_uniform(UInt32(count - i))) + i
-            guard i != j else { continue }
-            self.swapAt(i, j)
-        }
-    }
-}
-
-var cards = Deck.allCards
-cards.shuffle()
-
-
-let cardz = Deck(true)
-
-if let c: Card = cardz.draw() {
-    print(cardz.outs)
-    cardz.fold(card: c)
-    print(cardz.discard)
-}
-
+getPosts(url: URL(string: "https://api.intra.42.fr/v2/cursus_topics")!)

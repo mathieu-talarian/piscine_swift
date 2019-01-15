@@ -19,9 +19,6 @@ class APIController {
     }
     
     func getTweets(str : String, nbr : Int) {
-        
-        
-
         let query = str.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
         let URLRequest = NSMutableURLRequest(url: URL(string : "https://api.twitter.com/1.1/search/tweets.json?q=\(query)&count=\(nbr)&lang=fr&result_type=recent")!)
         
