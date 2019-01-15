@@ -9,8 +9,8 @@
 import Foundation
 
 struct TwitterCredentials {
-    var ApiKey: String = "Wf8FKvQnQyze9CNxIiDGrXqzJ"
-    var ApiSecretKey: String = "XBESsJlt5CRloZ7dePC2bgxeUOiJPjuoUn37fir73ZS3NL3X5a"
+    var ApiKey: String = "xxx"
+    var ApiSecretKey: String = "xxx"
     
     var bearer : String {
         return (self.ApiKey + ":" + self.ApiSecretKey)
